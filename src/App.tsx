@@ -1,12 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Header from './components/Header';
+
+// Conventional props 
+function Header({title}: {title: string}) {
+  return(
+    <h1>{title}</h1>
+  )
+}
 
 function App() {
   return (
-    <div className="App">
-      <Header title='Hello World' color='red'/>
+    <div>
+      <Header title={'hello'}></Header>
     </div>
   );
 }
