@@ -22,12 +22,30 @@ function Container({heading, children} : ContainerProps): ReactElement {
 // Children 指的是两个tag中间夹的内容
 Container.defaultProps = defaulfContainerProps
 
+// Functional props
+function TextWithNumber({
+  children
+} : {
+  children: (num: number) => ReactNode
+}) {
+  const [state, setState] = React.useState<number>(1)
+  
+  return (
+    <div>
+      <div>
+        {children(state)}
+      </div>
+      <div><button onClick={() => setState(state + 1)}>Add</button></div>
+    </div>
+  )
+}
 function App() {
   return (
     <div>
       <Heading title={"hello"}></Heading>
       <HeadingWithContent><strong>Hi</strong></HeadingWithContent>
       <Container>Food</Container>  
+      <TextWithNumber>{(num: number) => <div>Today's lucky number is {num}</div>}</TextWithNumber>
     </div>
   );
 }
