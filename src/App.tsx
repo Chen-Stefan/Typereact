@@ -14,7 +14,9 @@ const defaulfContainerProps = {
   heading: <strong>My heading</strong>
 }
 
-function Container({heading, children} : {children: ReactNode} & typeof defaulfContainerProps): ReactElement {
+type ContainerProps = {children: ReactNode} & typeof defaulfContainerProps
+
+function Container({heading, children} : ContainerProps): ReactElement {
   return <div><h1>{heading}</h1>{children}</div>
 }
 // Children 指的是两个tag中间夹的内容
