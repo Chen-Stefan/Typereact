@@ -6,46 +6,80 @@ function Heading({ title }: { title: string }) {
   return <h1>{title}</h1>;
 }
 
-function HeadingWithContent({ children }: { children: ReactNode }): ReactElement {
+function HeadingWithContent({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement {
   return <h1>{children}</h1>;
 }
 
 const defaulfContainerProps = {
-  heading: <strong>My heading</strong>
-}
+  heading: <strong>My heading</strong>,
+};
 
-type ContainerProps = {children: ReactNode} & typeof defaulfContainerProps
+type ContainerProps = { children: ReactNode } & typeof defaulfContainerProps;
 
-function Container({heading, children} : ContainerProps): ReactElement {
-  return <div><h1>{heading}</h1>{children}</div>
+function Container({ heading, children }: ContainerProps): ReactElement {
+  return (
+    <div>
+      <h1>{heading}</h1>
+      {children}
+    </div>
+  );
 }
 // Children 指的是两个tag中间夹的内容
-Container.defaultProps = defaulfContainerProps
+Container.defaultProps = defaulfContainerProps;
 
 // Functional props
 function TextWithNumber({
-  children
-} : {
-  children: (num: number) => ReactNode
+  children,
+}: {
+  children: (num: number) => ReactNode;
 }) {
-  const [state, setState] = React.useState<number>(1)
-  
+  const [state, setState] = React.useState<number>(1);
+
   return (
     <div>
+      <div>{children(state)}</div>
       <div>
-        {children(state)}
+        <button onClick={() => setState(state + 1)}>Add</button>
       </div>
-      <div><button onClick={() => setState(state + 1)}>Add</button></div>
     </div>
-  )
+  );
+}
+
+// Make a list using generic types
+function List<listItem>({
+  items,
+  render,
+}: {
+  items: listItem[];
+  render: (item: listItem) => ReactNode;
+}) {
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>{render(item)}</li>
+      ))}
+    </ul>
+  );
 }
 function App() {
   return (
     <div>
       <Heading title={"hello"}></Heading>
-      <HeadingWithContent><strong>Hi</strong></HeadingWithContent>
-      <Container>Food</Container>  
-      <TextWithNumber>{(num: number) => <div>Today's lucky number is {num}</div>}</TextWithNumber>
+      <HeadingWithContent>
+        <strong>Hi</strong>
+      </HeadingWithContent>
+      <Container>Food</Container>
+      <TextWithNumber>
+        {(num: number) => <div>Today's lucky number is {num}</div>}
+      </TextWithNumber>
+      <List
+        items={["Tom", "Stefan", "Damon"]}
+        render={(item: string) => <div>{item.toLowerCase()}</div>}
+      ></List>
     </div>
   );
 }
